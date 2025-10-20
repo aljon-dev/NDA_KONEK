@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nda_konek/Auth/Login.dart';
+import 'package:nda_konek/Auth/Otp.dart';
 import 'package:nda_konek/WidgetsReusable/Customcolors.dart';
 import 'package:nda_konek/WidgetsReusable/customForm.dart';
 import 'package:nda_konek/WidgetsReusable/customFormPassword.dart';
@@ -122,7 +123,9 @@ class registerState extends State<Register>{
             borderRadius: BorderRadius.circular(8),
           ),
           child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> OTPVerificationScreen()));
+          },
           style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,

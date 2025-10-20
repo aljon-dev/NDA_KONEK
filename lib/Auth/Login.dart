@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as customColors;
 import 'package:nda_konek/Auth/Register.dart';
+import 'package:nda_konek/Auth/Resetpassword.dart';
 import 'package:nda_konek/WidgetsReusable/Customcolors.dart';
 import 'package:nda_konek/WidgetsReusable/customForm.dart';
 import 'package:nda_konek/WidgetsReusable/customFormPassword.dart';
@@ -94,7 +95,9 @@ class LoginState extends State<Login> {
           ],
          ),
         
-         TextButton(onPressed: (){}, child: Text('Forgot Password'))
+         TextButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> ResetPassword()));
+         }, child:     customizableText(text: 'Forgot password? ', color: Colors.pink, fontweight: FontWeight.normal, size: 14))
 
         ],
       ),
