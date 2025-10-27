@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as customColors;
 import 'package:nda_konek/Auth/Register.dart';
 import 'package:nda_konek/Auth/Resetpassword.dart';
+import 'package:nda_konek/Views/Home/Home.dart';
 import 'package:nda_konek/WidgetsReusable/Customcolors.dart';
 import 'package:nda_konek/WidgetsReusable/customForm.dart';
 import 'package:nda_konek/WidgetsReusable/customFormPassword.dart';
@@ -107,7 +108,9 @@ class LoginState extends State<Login> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
+          },
           style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
