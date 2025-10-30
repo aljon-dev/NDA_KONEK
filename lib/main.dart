@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:nda_konek/Auth/Login.dart';
 import 'package:nda_konek/WidgetsReusable/customText.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+void main() async {
+
+ 
   runApp(const  MyApp());
+
+   WidgetsFlutterBinding.ensureInitialized();
+    await Supabase.initialize(
+    url:'https://wvagjowvktijocapfloe.supabase.co',
+    anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2YWdqb3d2a3Rpam9jYXBmbG9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4Mjg2OTMsImV4cCI6MjA3NzQwNDY5M30.ic_r_v8qcBTUtJw7wnH51oH1Z3cZHfjlynAPZIDzMv4'
+  );
+
+
+
 }
 
 
