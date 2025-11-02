@@ -10,6 +10,7 @@ import 'package:nda_konek/WidgetsReusable/Customcolors.dart';
 import 'package:nda_konek/WidgetsReusable/customForm.dart';
 import 'package:nda_konek/WidgetsReusable/customFormPassword.dart';
 import 'package:nda_konek/WidgetsReusable/customText.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Login extends StatefulWidget {
     const Login ({super.key});
@@ -23,10 +24,41 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
 
+
+  final _supabase = Supabase.instance;
+
    final TextEditingController emailController = TextEditingController();
    final TextEditingController passwordController = TextEditingController();
   
   bool rememberMe = false;
+
+
+    Future<void> loginUser () async {
+
+
+        try{
+          await _supabase.client.auth.signInWithPassword(
+          email: emailController.text,
+          password: passwordController.text);
+
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Successfully Login',style: TextStyle(
+          color: Colors.white
+        ),),backgroundColor: Colors.green,behavior:SnackBarBehavior.floating,));
+
+        }catch(e){
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString(),style: TextStyle(
+          color: Colors.white
+        ),),backgroundColor: Colors.red,behavior:SnackBarBehavior.floating,));
+
+
+        }
+        
+
+
+    }
 
   List <Map<String,dynamic>> loginOptions = [
     {
@@ -109,7 +141,7 @@ class LoginState extends State<Login> {
           ),
           child: ElevatedButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
+           loginUser();
           },
           style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
