@@ -6,7 +6,6 @@ import 'package:nda_konek/WidgetsReusable/customForm.dart';
 import 'package:nda_konek/WidgetsReusable/customFormPassword.dart';
 import 'package:nda_konek/WidgetsReusable/customText.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:nda_konek/WidgetsReusable/snackbar.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -16,8 +15,9 @@ class Register extends StatefulWidget {
 }
 
 class registerState extends State<Register> {
+  
   final Supabase _supabase = Supabase.instance;
-  final showSnackbar = ShowSnackbar();
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = TextEditingController();
@@ -36,15 +36,19 @@ class registerState extends State<Register> {
 
   Future<void> registerUser() async {
   
-    // Check terms agreement
+
     if (!isAgree) {
-      showSnackbar.show('Please agree to Terms & Conditions', context, Colors.red);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please agree the terms and condition',style: TextStyle(
+          color: Colors.white
+        ),),backgroundColor: Colors.red,behavior:SnackBarBehavior.floating,));
       return;
     }
 
     // Check password match
     if (passwordController.text != confirmPasswordController.text) {
-      showSnackbar.show('Passwords do not match', context, Colors.red);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Password not match',style: TextStyle(
+          color: Colors.white
+        ),),backgroundColor: Colors.red,behavior:SnackBarBehavior.floating,));
       return;
     }
 
@@ -56,20 +60,50 @@ class registerState extends State<Register> {
       final response = await _supabase.client.auth.signUp(
         email: emailController.text.trim(),
         password: passwordController.text,
-        data: {
-          'name': nameController.text.trim(),
-        },
       );
+
+      final user = response.user;
+
+      if(user != null) {
+        String userid = user.id;
+
+       await _supabase.client.from('users').insert({
+          'name':nameController.text,
+          'userid':userid,
+          'profile':'',
+        });
+
+        Navigator.pop(context);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Successfully Registered',style: TextStyle(
+          color: Colors.white
+        ),),backgroundColor: Colors.green,behavior:SnackBarBehavior.floating,));
+
+   
+
+       
+
+      
+
+
+      }
+      
 
       if (!mounted) return;
 
      
     } on AuthException catch (e) {
-      if (!mounted) return;
-      showSnackbar.show(e.message, context, Colors.red);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString(),style: TextStyle(
+          color: Colors.white
+      ),),backgroundColor: Colors.red,behavior:SnackBarBehavior.floating,));
+
+  
     } catch (e) {
-      if (!mounted) return;
-      showSnackbar.show('An error occurred: $e', context, Colors.red);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString(),style: TextStyle(
+          color: Colors.white
+      ),),backgroundColor: Colors.red,behavior:SnackBarBehavior.floating,));
+
+  
     } finally {
       if (mounted) {
         setState(() {
@@ -198,7 +232,7 @@ class registerState extends State<Register> {
                       onPressed: isLoading ? null : (){
                           // Validate form
                       if (formKey.currentState == null || !formKey.currentState!.validate()) {
-                        showSnackbar.show('Please fill all fields correctly', context, Colors.red);
+                     
                         return;
                       }
                       registerUser();
