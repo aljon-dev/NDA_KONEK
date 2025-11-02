@@ -47,6 +47,13 @@ class LoginState extends State<Login> {
           color: Colors.white
         ),),backgroundColor: Colors.green,behavior:SnackBarBehavior.floating,));
 
+        }on AuthException catch (e){
+
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString(),style: TextStyle(
+          color: Colors.white
+        ),),backgroundColor: Colors.red,behavior:SnackBarBehavior.floating,));
+
+
         }catch(e){
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString(),style: TextStyle(

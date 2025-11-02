@@ -81,11 +81,7 @@ class registerState extends State<Register> {
 
    
 
-       
-
       
-
-
       }
       
 
